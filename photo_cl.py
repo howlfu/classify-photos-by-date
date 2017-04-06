@@ -26,17 +26,15 @@ class photo_classify(object):
         filenames = os.listdir(self.get_path)
         for file in filenames:
             path = os.path.join(self.get_path,file)
-            if not self.is_image(path):
-            #continue if dir
+            if os.path.isdir(path):
                 continue
             else:
-            # save as image path and date
                 path = os.path.join(self.get_path,file)
                 timestamp = os.path.getmtime(path)
                 time = datetime.fromtimestamp(timestamp)
                 photo_time = time.strftime("%Y-%m-%d")
                 self.photo_info[path] = photo_time
-        #print(self.photo_info)
+        print(self.photo_info)
     def is_image(self,img_file):
         if os.path.isdir(img_file):
             return False
@@ -48,12 +46,7 @@ class photo_classify(object):
             if not os.path.exists(targetPath):
                 os.mkdir(targetPath)
             #move photo to new place by date
-            try:
-                shutil.move(photo, targetPath)
-            except:
-                print(photo + ' is existed under ' + targetPath)
-                print('removed')
-                os.remove(photo)
+            shutil.move(photo, targetPath)
             
 if __name__ == '__main__':
     test = photo_classify('D:\手機照片')
